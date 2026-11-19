@@ -1,0 +1,27 @@
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: electricity-job
+  namespace: default
+
+spec:
+  backoffLimit: 1
+
+  template:
+    metadata:
+      labels:
+        app: electricity-app
+
+    spec:
+      restartPolicy: Never
+
+      containers:
+        - name: electricity-container
+          image: jithendragurram/electricity-app:v1
+          imagePullPolicy: Always
+
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              printf 'Jithu\n122\n' | python electricity.py
